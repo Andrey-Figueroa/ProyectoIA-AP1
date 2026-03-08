@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Equipo — Talleres Formativos en IA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #F5F2EE;
+      --ink: #1A1714;
+      --muted: #8A8178;
+      --accent: #C4622D;
+      --card: #FFFFFF;
+      --border: #E2DDD8;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      padding: 60px 24px 80px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      max-width: 900px;
+      margin: 0 auto 72px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards;
+    }
+
+    .tag {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .subtitle {
+      margin-top: 20px;
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.7;
+    }
+
+    .divider {
+      width: 40px;
+      height: 1px;
+      background: var(--accent);
+      margin-top: 32px;
+    }
+
+    /* ── GRID ── */
+    .grid {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 2px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 36px 32px;
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      z-index: 2;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 0;
+      background: var(--accent);
+      transition: height 0.4s ease;
+    }
+
+    .card:hover::before { height: 100%; }
+
+    .card-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--border);
+      margin-bottom: 28px;
+      display: block;
+    }
+
+    .card-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.65rem;
+      font-weight: 400;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .card-role {
+      font-size: 10.5px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .card-tasks {
+      list-style: none;
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+    }
+
+    .card-tasks li {
+      font-size: 12.5px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.5;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .card-tasks li::before {
+      content: '→';
+      color: var(--accent);
+      flex-shrink: 0;
+      font-size: 11px;
+      margin-top: 1px;
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .card:hover .card-tasks li::before {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .card-tasks li:last-child { border-bottom: none; }
+
+    /* domain badge */
+    .domain {
+      display: inline-block;
+      margin-top: 20px;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--card);
+      background: var(--ink);
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      max-width: 900px;
+      margin: 60px auto 0;
+      border-top: 1px solid var(--border);
+      padding-top: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      opacity: 0;
+      animation: fadeUp 0.8s 1.2s ease forwards;
+    }
+
+    footer span {
+      font-size: 11.5px;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    footer strong {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card:nth-child(1) { animation-delay: 0.15s; }
+    .card:nth-child(2) { animation-delay: 0.25s; }
+    .card:nth-child(3) { animation-delay: 0.35s; }
+    .card:nth-child(4) { animation-delay: 0.45s; }
+    .card:nth-child(5) { animation-delay: 0.55s; }
+    .card:nth-child(6) { animation-delay: 0.65s; }
+
+    @media (max-width: 560px) {
+      .grid { grid-template-columns: 1fr; }
+      header { margin-bottom: 48px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <p class="tag">Administración de Proyectos I · TEC · 2026</p>
+    <h1>Talleres<br/><em>Formativos</em><br/>en IA</h1>
+    <p class="subtitle">Equipo de proyecto — Línea 1. Seis roles, una visión compartida. Ninguno por encima del otro.</p>
+    <div class="divider"></div>
+  </header>
+
+  <div class="grid">
+
+    <!-- 1 -->
+    <div class="card">
+      <span class="card-number">01</span>
+      <h2 class="card-name">Nazareth<br/>Muñoz</h2>
+      <p class="card-role">Directora de Proyecto</p>
+      <ul class="card-tasks">
+        <li>Coordinar al equipo y facilitar reuniones</li>
+        <li>Supervisar los 7 dominios PMBOK</li>
+        <li>Gestionar el Project Charter</li>
+        <li>Documentar decisiones clave</li>
+        <li>Redactar el informe de cierre</li>
+      </ul>
+      <span class="domain">Governance · Schedule</span>
+    </div>
+
+    <!-- 2 -->
+    <div class="card">
+      <span class="card-number">02</span>
+      <h2 class="card-name">Gustavo<br/>Corrales</h2>
+      <p class="card-role">Gestor de Interesados</p>
+      <ul class="card-tasks">
+        <li>Identificar y analizar stakeholders</li>
+        <li>Contactar formalmente a la institución</li>
+        <li>Gestionar el plan de comunicación</li>
+        <li>Documentar interacciones y validaciones</li>
+        <li>Obtener retroalimentación institucional</li>
+      </ul>
+      <span class="domain">Stakeholders</span>
+    </div>
+
+    <!-- 3 -->
+    <div class="card">
+      <span class="card-number">03</span>
+      <h2 class="card-name">Rachel<br/>Rojas</h2>
+      <p class="card-role">Coordinadora de Cronograma</p>
+      <ul class="card-tasks">
+        <li>Mantener el cronograma actualizado</li>
+        <li>Registrar minutas de cada reunión</li>
+        <li>Organizar eventos y sprints del equipo</li>
+        <li>Monitorear desviaciones vs línea base</li>
+        <li>Documentar retrasos o adelantos</li>
+      </ul>
+      <span class="domain">Schedule · Resources</span>
+    </div>
+
+    <!-- 4 -->
+    <div class="card">
+      <span class="card-number">04</span>
+      <h2 class="card-name">Ariel<br/>Rodríguez</h2>
+      <p class="card-role">Analista de Riesgos</p>
+      <ul class="card-tasks">
+        <li>Identificar y categorizar riesgos</li>
+        <li>Evaluar probabilidad e impacto</li>
+        <li>Diseñar planes de respuesta</li>
+        <li>Monitorear riesgos durante el proyecto</li>
+        <li>Registrar riesgos materializados</li>
+      </ul>
+      <span class="domain">Risk</span>
+    </div>
+
+    <!-- 5 -->
+    <div class="card">
+      <span class="card-number">05</span>
+      <h2 class="card-name">Andrey<br/>Figueroa</h2>
+      <p class="card-role">Especialista en IA</p>
+      <ul class="card-tasks">
+        <li>Diseñar los contenidos del taller</li>
+        <li>Crear materiales formativos de IA</li>
+        <li>Facilitar y ejecutar el taller</li>
+        <li>Aplicar encuesta de impacto</li>
+        <li>Garantizar uso ético y responsable de IA</li>
+      </ul>
+      <span class="domain">Scope · Ejecución</span>
+    </div>
+
+    <!-- 6 -->
+    <div class="card">
+      <span class="card-number">06</span>
+      <h2 class="card-name">Mariangel<br/>Monge</h2>
+      <p class="card-role">Responsable de Calidad</p>
+      <ul class="card-tasks">
+        <li>Verificar criterios de aceptación</li>
+        <li>Controlar versiones de entregables</li>
+        <li>Gestionar cambios de alcance</li>
+        <li>Llevar el presupuesto estimado vs real</li>
+        <li>Asegurar el profesionalismo del entregable</li>
+      </ul>
+      <span class="domain">Scope · Finance</span>
+    </div>
+
+  </div>
+
+  <footer>
+    <span>Escuela de Administración de Tecnologías de Información · <strong>TEC</strong></span>
+    <span>Línea de acción <strong>#1</strong> — Talleres Formativos en IA</span>
+  </footer>
+
+</body>
+</html>
